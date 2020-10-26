@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "833605846409",
+    "firebase_url": "https://photocatalog-dd20d.firebaseio.com",
+    "project_id": "photocatalog-dd20d",
+    "storage_bucket": "photocatalog-dd20d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833605846409:android:9c6f6f9c9f9f86204d8d58",
+        "android_client_info": {
+          "package_name": "com.example.photo_catalog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833605846409-uc4gavhp7q9id18igj3so12kpgo68fmj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.photo_catalog",
+            "certificate_hash": "6f2888f2ce63a7d0d38bee18f9565f28b21ea311"
+          }
+        },
+        {
+          "client_id": "833605846409-410n1hoib43dh2mbbi3dksv7qvl7pdrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5-Gs9z35o0nQdjBWvIqh1DDJKmyk7tq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833605846409-410n1hoib43dh2mbbi3dksv7qvl7pdrr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
