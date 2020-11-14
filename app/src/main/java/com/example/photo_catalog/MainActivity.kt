@@ -6,9 +6,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
-import com.example.photo_catalog.Fragments.AboutFragment
-import com.example.photo_catalog.Fragments.AddItemFragment
-import com.example.photo_catalog.Fragments.HomeFragment
+import com.example.photo_catalog.about.AboutFragment
+import com.example.photo_catalog.AddItem.AddItemFragment
+import com.example.photo_catalog.home.HomeFragment
 import com.example.photo_catalog.Timer.ActiveTimer
 import com.example.photo_catalog.Timer.PhotoCatalogTimer
 import com.example.photo_catalog.Timer.ToDestroyTimer
@@ -68,29 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             testNumber = savedInstanceState.getInt("key_test")
         }
         Timber.i("onCreate called")
-        //fab_new_item.setOnClickListener {
-        //    startActivity(Intent(this, AddNewItemActivity::class.java))
-        //}
-        //downloadImages()
     }
-
-    /*private fun downloadImages() {
-        bar_id.visibility = View.VISIBLE
-        var islandRef = storageRef.child("pics/test")
-
-        val localFile: File = File.createTempFile("images", "jpg")
-
-
-        islandRef.getFile(localFile).addOnSuccessListener {
-            // Data for "images/island.jpg" is returned, use this as needed
-            val bmp = BitmapFactory.decodeFile(localFile.absolutePath)
-            image_id.setImageBitmap(bmp)
-            bar_id.visibility = View.GONE
-        }.addOnFailureListener { exception ->
-            Toast.makeText(this@MainActivity, exception.message, Toast.LENGTH_LONG).show()
-        }
-
-    }*/
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         val actionBar = supportActionBar
@@ -105,7 +83,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 actionBar?.title = "Photo"
             }
             R.id.addItem -> {
-                addItemFragment = AddItemFragment()
+                addItemFragment =
+                    AddItemFragment()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, addItemFragment)

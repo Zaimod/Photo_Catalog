@@ -1,4 +1,4 @@
-package com.example.photo_catalog.Fragments
+package com.example.photo_catalog.about
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

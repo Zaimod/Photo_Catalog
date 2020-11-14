@@ -6,17 +6,17 @@
     app:startDestination="@id/homeFragment2">
     <fragment
         android:id="@+id/homeFragment2"
-        android:name="com.example.photo_catalog.Fragments.HomeFragment"
+        android:name="com.example.photo_catalog.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/addItemFragment"
-        android:name="com.example.photo_catalog.Fragments.AddItemFragment"
+        android:name="com.example.photo_catalog.AddItem.AddItemFragment"
         android:label="fragment_add_item"
         tools:layout="@layout/fragment_add_item" />
     <fragment
         android:id="@+id/aboutFragment2"
-        android:name="com.example.photo_catalog.Fragments.AboutFragment"
+        android:name="com.example.photo_catalog.about.AboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
 </navigation>
