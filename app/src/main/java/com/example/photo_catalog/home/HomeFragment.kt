@@ -1,7 +1,11 @@
 package com.example.photo_catalog.home
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Path
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -18,17 +22,37 @@ import java.io.File
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.photo_catalog.database.Messages
+import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.message_item.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import java.io.Console
 import java.lang.Exception
 
 
+private const val REQUEST_CODE_IMAGE_PICK = 0
+
 class HomeFragment : Fragment() {
 
+    var curFile: Uri? = null
+
+    val imageRef = Firebase.storage.reference
+
     private var testNumber = 0
-    private val storageRef = Firebase.storage.reference
     private lateinit var timer: PhotoCatalogTimer
+    private lateinit var recyclerview: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         timer = PhotoCatalogTimer(this.lifecycle)
         if (savedInstanceState != null) {
             testNumber = savedInstanceState.getInt("key_test")
@@ -36,38 +60,40 @@ class HomeFragment : Fragment() {
         Timber.i("onCreate called")
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_home, container, false)
+        recyclerview = view.findViewById(R.id.recycler_id)
+        recyclerview.layoutManager = LinearLayoutManager(context)
 
-        try {
-            val application = requireNotNull(this.activity).application
-
-            val dataSource = PhotoCatalogDatabase.getInstance(application).photoCatalogDataDao
-
-            val viewModelFactory = HomeViewModelFactory(dataSource, application)
-
-            val homeViewModel = ViewModelProviders.of(
-                this, viewModelFactory).get(HomeViewModel::class.java)
-
-            homeViewModel.navigateToHome.observe(viewLifecycleOwner, Observer {
-                item ->
-                item?.let {
-                    this.findNavController()
-                }
-            })
-        }
-        catch(ex: Exception){
-
-        }
-        downloadImages(view)
-
+        listFiles()
         return view
     }
 
+    private fun listFiles() = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val images = imageRef.child("pics/").listAll().await()
+            val imageUrls = mutableListOf<String>()
+            for(image in images.items) {
+                val url = image.downloadUrl.await()
+                imageUrls.add(url.toString())
+            }
+            withContext(Dispatchers.Main) {
+                val imageAdapter = ImageAdapter(imageUrls)
+                recycler_id.apply {
+                    adapter = imageAdapter
+                    layoutManager = LinearLayoutManager(context)
+                }
+            }
+        } catch(e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+
+
+    /*
     fun downloadImages(view: View) {
         view.bar_id.visibility = View.VISIBLE
         var islandRef = storageRef.child("pics/test")
@@ -76,13 +102,13 @@ class HomeFragment : Fragment() {
 
         islandRef.getFile(localFile).addOnSuccessListener {
             val bmp = BitmapFactory.decodeFile(localFile.absolutePath)
-            view.id_test.setImageBitmap(bmp)
+            //view.id_test.setImageBitmap(bmp)
             view.bar_id.visibility = View.GONE
         }.addOnFailureListener { exception ->
             Toast.makeText(context, exception.message, Toast.LENGTH_SHORT).show()
         }
     }
-
+    */
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -116,5 +142,13 @@ class HomeFragment : Fragment() {
         super.onDestroy()
         Timber.i("onDestroy called")
     }
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICK) {
+            data?.data?.let {
+                curFile = it
+                imageView.setImageURI(it)
+            }
+        }
+    }
 }

@@ -9,19 +9,26 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.photo_catalog.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.lang.Exception
 
 class AddItemViewModel : ViewModel() {
 
     lateinit var imageUri: Uri
     lateinit var imageItem: ImageView
-
+    var curFile: Uri? = null
     lateinit var editLabel: EditText
     lateinit var editDesk: EditText
     lateinit var progressBar: ProgressBar
@@ -40,12 +47,13 @@ class AddItemViewModel : ViewModel() {
         Log.i("AddItemViewModel", "AddItemViewModel destroyed!")
     }
 
+
     private fun uploadImageAndSaveUri(bitmap: Bitmap) {
         progressBar.visibility = View.VISIBLE
         val baos = ByteArrayOutputStream()
         val storageRef = FirebaseStorage.getInstance()
             .reference
-            .child("pics/test")
+            .child("pics/${randName()}")
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val image = baos.toByteArray()
 
@@ -63,6 +71,17 @@ class AddItemViewModel : ViewModel() {
             }
             progressBar.visibility = View.GONE
         }
+    }
+
+
+    fun randName(): String{
+        val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        val randomString = (1..10)
+            .map { kotlin.random.Random.nextInt(0, charPool.size) }
+            .map(charPool::get)
+            .joinToString("");
+
+        return randomString
     }
 
     fun selectImg(): Intent {
