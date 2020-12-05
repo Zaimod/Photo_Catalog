@@ -16,5 +16,9 @@
             android:id="@+id/about"
             android:icon="@drawable/ic_action_about"
             android:title="@string/item_about" />
+        <item
+            android:id="@+id/placeholder"
+            android:icon="@drawable/ic_action_placeholder"
+            android:title="Placeholder"/>
     </group>
 </menu>

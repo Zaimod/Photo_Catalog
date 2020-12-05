@@ -12,6 +12,7 @@ import com.example.photo_catalog.home.HomeFragment
 import com.example.photo_catalog.Timer.ActiveTimer
 import com.example.photo_catalog.Timer.PhotoCatalogTimer
 import com.example.photo_catalog.Timer.ToDestroyTimer
+import com.example.photo_catalog.network.PlaceholderFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var homeFragment: HomeFragment
     lateinit var aboutFragment: AboutFragment
     lateinit var addItemFragment: AddItemFragment
+    lateinit var placeholderFragment: PlaceholderFragment
     private lateinit var timerActive: PhotoCatalogTimer
     private lateinit var timerToDestroy: PhotoCatalogTimer
     private var testNumber = 0
@@ -100,6 +102,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
                 actionBar?.title = "About"
+            }
+            R.id.placeholder -> {
+                placeholderFragment = PlaceholderFragment()
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, placeholderFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
+                actionBar?.title = "PlaceholderJson"
             }
         }
         drawer_Layout.closeDrawer(GravityCompat.START)
