@@ -12,7 +12,6 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.example.photo_catalog.R
 import com.example.photo_catalog.databinding.FragmentPlaceholderBinding
 
 class PlaceholderFragment : Fragment() {

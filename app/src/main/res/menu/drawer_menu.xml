@@ -20,5 +20,9 @@
             android:id="@+id/placeholder"
             android:icon="@drawable/ic_action_placeholder"
             android:title="Placeholder"/>
+        <item
+            android:id="@+id/video_viewer"
+            android:icon="@drawable/video_img"
+            android:title="VideoViewer"/>
     </group>
 </menu>

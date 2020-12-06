@@ -1,7 +1,6 @@
 package com.example.photo_catalog.network
 
 import com.squareup.moshi.Json
-import java.util.*
 
 data class PlaceholderProperty(
     val albumId: Int,

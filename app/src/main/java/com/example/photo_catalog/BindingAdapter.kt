@@ -1,5 +1,6 @@
 package com.example.photo_catalog
 
+import android.view.View
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
