@@ -1,41 +1,32 @@
 package com.example.photo_catalog.home
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Path
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
-import com.example.photo_catalog.R
-import com.example.photo_catalog.Timer.PhotoCatalogTimer
-import com.example.photo_catalog.database.PhotoCatalogDatabase
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import kotlinx.android.synthetic.main.fragment_home.view.*
-import timber.log.Timber
-import java.io.File
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.photo_catalog.database.Messages
-import com.google.firebase.database.*
-import com.google.firebase.storage.FirebaseStorage
+import com.example.photo_catalog.AddItem.AddItemFragment
+import com.example.photo_catalog.R
+import com.example.photo_catalog.Timer.PhotoCatalogTimer
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.message_item.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
-import java.io.Console
-import java.lang.Exception
+import timber.log.Timber
 
 
 private const val REQUEST_CODE_IMAGE_PICK = 0
@@ -49,6 +40,8 @@ class HomeFragment : Fragment() {
     private var testNumber = 0
     private lateinit var timer: PhotoCatalogTimer
     private lateinit var recyclerview: RecyclerView
+
+    lateinit var addItemFragment: AddItemFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,10 +57,14 @@ class HomeFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_home, container, false)
         recyclerview = view.findViewById(R.id.recycler_id)
         recyclerview.layoutManager = LinearLayoutManager(context)
-
         listFiles()
+        view.fab_btn.setOnClickListener {
+            Toast.makeText(context, "Test button!", Toast.LENGTH_SHORT).show()
+        }
         return view
     }
+
+
 
     private fun listFiles() = CoroutineScope(Dispatchers.IO).launch {
         try {

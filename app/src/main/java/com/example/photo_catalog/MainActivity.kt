@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.photo_catalog.about.AboutFragment
@@ -72,6 +73,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             testNumber = savedInstanceState.getInt("key_test")
         }
         Timber.i("onCreate called")
+
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
